@@ -1,0 +1,7 @@
+{
+  "name": "affluence-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
