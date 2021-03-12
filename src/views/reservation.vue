@@ -17,8 +17,9 @@
       </ion-card-header>
 
       <ion-card-content>
-        {{form.email}}
-        {{form.date}}
+        <p v-if="msg.error" style="text-align: center; color: red; font-size: 20px">{{msg.error}}</p>
+        <p v-if="msg.success" style="text-align: center; color: green; font-size: 20px"> {{msg.success}}</p>
+
       </ion-card-content>
     </ion-card>
         <form method="POST" @submit.prevent="reserve">
@@ -45,7 +46,7 @@
 
 <script>
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/vue';
-import axios from 'axios';
+
 
 
 export default  {
@@ -56,7 +57,8 @@ export default  {
         email: '',
         date: '',
         time: '',
-      }  
+      },
+      msg: '',
       
       }
     },
@@ -65,22 +67,29 @@ export default  {
     reserve(){
 
         console.log(JSON.stringify(this.form));
-        axios({
-          method: "post",
-          url: "http://cryptic-eyrie-01643.herokuapp.com/api/reservation",
-          data: JSON.stringify(this.form),
-          headers: { "Content-Type": "application/json" }
-          })
-        .then(function (response) {
-          //handle success
-          console.log(response);
-        })
-        .catch(function (response) {
-          //handle error
-          console.log(response);
-        });
-      
+        let url = "https://cryptic-eyrie-01643.herokuapp.com/api/reservation"
+        let param = {
+            method : 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(this.form)
+          }
+    fetch(url, param)
+      .then(response => response.json())
+      .then(data => {
+        this.msg = data
+        if(this.msg.success){
+          this.form.email = ''
+          this.form.date = ''
+          this.form.time = ''
+        }
+        console.log(data)
+      })
+      .catch(error => {console.log(error)})
     }
   }
 }
+
 </script>
