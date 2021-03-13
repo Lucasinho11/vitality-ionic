@@ -26,6 +26,10 @@ const routes= [
         path: 'Infos',
         component: () => import('@/views/infos.vue')
       },
+      {
+        path: 'Annulation',
+        component: () => import('@/views/annulation.vue')
+      },
 
     ]
   }
