@@ -58,7 +58,8 @@ export default  {
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonLabel, IonInput, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent },
   methods: {
     annulation(){
-        axios.get('https://cryptic-eyrie-01643.herokuapp.com/api/annulation/'+this.token)
+        if(this.token.length > 0){
+             axios.get('https://cryptic-eyrie-01643.herokuapp.com/api/annulation/'+this.token)
            .then(response => {
             console.log(response)
             this.msg = response.data
@@ -69,6 +70,11 @@ export default  {
             this.msg.error = error.response.data.error
             console.log(this.msg)
           })
+        }
+        else{
+            this.msg.error = "Veuillez remplir le champs"
+        }
+       
     
   }
 }
